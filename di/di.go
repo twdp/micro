@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"reflect"
 	"strings"
+	"tianwei.pro/micro/rpc"
 	"tianwei.pro/micro/rpc/client"
 	"tianwei.pro/micro/rpc/server"
 )
@@ -55,7 +56,7 @@ func (c *Container) GetByType(typ interface{}) interface{} {
 // Resolve decorates objects with dependencies and initializes them.
 func (c *Container) Resolve() error {
 	for key, d := range c.dependencies {
-		if strings.Contains(key, "rpc_c_") {
+		if strings.Contains(key, rpc.RpcConsumer) {
 			client.UserService(d)
 		}
 	}
@@ -75,7 +76,7 @@ func (c *Container) Resolve() error {
 
 func (c *Container) ResolverRpcServer() {
 	for key, d := range c.dependencies {
-		if strings.Contains(key, "rpc_s_") {
+		if strings.Contains(key, rpc.RpcProvider) {
 			server.AddInstanceMethods(d)
 		}
 	}
