@@ -5,6 +5,7 @@ import (
 	"reflect"
 	"strings"
 	"tianwei.pro/micro/rpc/client"
+	"tianwei.pro/micro/rpc/server"
 )
 
 type Dependency interface {
@@ -14,14 +15,14 @@ type Dependency interface {
 
 // Container contains dependencies by name.
 type Container struct {
-	allowCover bool
+	allowCover   bool
 	dependencies map[string]interface{}
 }
 
 // New creates new Container instance.
 func New() *Container {
 	return &Container{
-		allowCover: false,
+		allowCover:   false,
 		dependencies: make(map[string]interface{}),
 	}
 }
@@ -54,7 +55,7 @@ func (c *Container) GetByType(typ interface{}) interface{} {
 // Resolve decorates objects with dependencies and initializes them.
 func (c *Container) Resolve() error {
 	for key, d := range c.dependencies {
-		if strings.Contains(key, "rpc_") {
+		if strings.Contains(key, "rpc_c_") {
 			client.UserService(d)
 		}
 	}
@@ -65,11 +66,19 @@ func (c *Container) Resolve() error {
 		if dep, ok := d.(Dependency); ok {
 			err := dep.Open()
 			if err != nil {
-				return err
+				panic(err)
 			}
 		}
 	}
 	return nil
+}
+
+func (c *Container) ResolverRpcServer() {
+	for key, d := range c.dependencies {
+		if strings.Contains(key, "rpc_s_") {
+			server.AddInstanceMethods(d)
+		}
+	}
 }
 
 // Close closes all dependencies.

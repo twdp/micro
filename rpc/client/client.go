@@ -20,5 +20,7 @@ func UserService(remoteService interface{}, namespace ...string) {
 }
 
 func Close() {
-	client.Close()
+	if client != nil {
+		client.Close()
+	}
 }

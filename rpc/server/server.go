@@ -27,5 +27,7 @@ func AddFunction(name string, function interface{}, option ...rpc.Options) {
 }
 
 func Close() {
-	server.Close()
+	if server != nil {
+		server.Close()
+	}
 }
