@@ -1,6 +1,6 @@
 package single
 
-import "github.com/twdp/kit/di"
+import "tianwei.pro/micro/di"
 
 var container *di.Container
 

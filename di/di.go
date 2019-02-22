@@ -54,6 +54,8 @@ func (c *Container) GetByType(typ interface{}) interface{} {
 
 // Resolve decorates objects with dependencies and initializes them.
 func (c *Container) Resolve() error {
+	c.ResolverRpcServer()
+
 	for key, d := range c.dependencies {
 		if strings.Contains(key, RpcConsumer) {
 			client.UserService(d)

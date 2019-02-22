@@ -10,3 +10,7 @@ const (
 func NewRpcProviderName(name string) string {
 	return fmt.Sprintf("%s%s", RpcProvider, name)
 }
+
+func NewRpcConsumerName(name string) string {
+	return fmt.Sprintf("%s%s", RpcConsumer, name)
+}

@@ -11,7 +11,7 @@ var (
 
 func init() {
 	Server = rpc.NewTCPServer(conf.Conf.String("server.address"))
-	Server.Handle()
+	Handle()
 }
 
 func AddInstanceMethods(obj interface{}, option ...rpc.Options) {
