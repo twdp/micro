@@ -17,3 +17,7 @@ func Resolve() {
 		panic(err)
 	}
 }
+
+func GetByName(name string) interface{} {
+	return container.GetByName(name)
+}
