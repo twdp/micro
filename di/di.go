@@ -107,7 +107,10 @@ func (c *Container) inject(obj interface{}) {
 
 		dependency := c.GetByName(inject)
 		if dependency != nil {
-			reflect.ValueOf(obj).Elem().Field(i).Set(reflect.ValueOf(dependency))
+			vv := reflect.ValueOf(obj).Elem().Field(i)
+			if vv.CanSet() {
+				vv.Set(reflect.ValueOf(dependency))
+			}
 		} else if required {
 			panic(fmt.Sprintf("Colud not inject field: %s", inject))
 		}
